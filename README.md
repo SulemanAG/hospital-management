@@ -1,9 +1,8 @@
 
 
-```markdown
 # 🏥 Hospital Management System
 
-> A robust, role-based Java application designed around core Object-Oriented Programming (OOP) paradigms, custom exception handling, interface-driven workflows, and automated object serialization persistence.
+> A robust, role-based Java application engineered with Object-Oriented Programming (OOP) principles, custom exception handling, interface-driven workflows, and automated object serialization persistence.
 
 [![Java Version](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -12,7 +11,7 @@
 
 ## 📌 Overview
 
-The **Hospital Management System** models a real-world healthcare ecosystem. It provides an interactive workspace for **Admins, Doctors, Nurses, Pharmacists, and Patients**.
+The **Hospital Management System** models a full-scale healthcare ecosystem. It provides an interactive workspace for **Admins, Doctors, Nurses, Pharmacists, and Patients**.
 
 The system automates patient check-in workflows, emergency triage routing, preliminary nurse vitals reports, doctor diagnoses and treatment plans, pharmacy prescription fulfillment, and hospital financial accounting (including bill collections and monthly staff payroll disbursements).
 
@@ -103,15 +102,92 @@ classDiagram
 
 ---
 
-## ⚡ Features
+## 🔄 End-to-End Patient Flow & Lifecycle Architecture
 
-### 🔑 Role-Based Access Dashboards
+### 1. High-Level Lifecycle Flowchart
+
+```mermaid
+flowchart TD
+    A[🚑 Patient Arrives at Hospital] --> B{Is Emergency?}
+    
+    %% Emergency Path
+    B -- YES --> C[🚨 Triage Alert: Bypass Queue]
+    C --> D[Assign Senior Doctor & ICU Nurse]
+    D --> E[Immediate ICU Stabilization]
+    
+    %% Standard Path
+    B -- NO --> F[📝 Reception Check-In]
+    F --> G[Assign Low-Level/Junior Doctor & Ward Nurse]
+    G --> H[Nurse Prepares Vitals & MedicalReport]
+    H --> I[Doctor Reviews Vitals & Diagnoses]
+    
+    %% Treatment Decision
+    E --> J{Requires Admission?}
+    I --> J
+    
+    J -- YES --> K[🛌 Ward Admission & Continued Care]
+    K --> L[Treatment Completed -> Discharge Issued]
+    J -- NO --> M[💊 Prescription Issued]
+    
+    L --> N[🏥 Pharmacy Fulfillment]
+    M --> N
+    
+    N --> O[💳 Central Billing & Financial Payment]
+    O --> P[💰 Funds Credited to Hospital Treasury]
+    P --> Q[💸 Monthly Staff Payroll Disbursement]
+
+```
+
+---
+
+### 2. Detailed Patient Journey Sequence
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor P as Patient
+    participant N as Nurse
+    participant D as Doctor
+    participant Ph as Pharmacist
+    participant F as Hospital Treasury
+
+    Note over P, F: Phase 1: Intake & Preliminary Vitals
+    P->>N: Arrives at Hospital (Check-in)
+    N->>N: Measure Vitals (BP, Pulse, Temp, Symptoms)
+    N->>D: Route generated MedicalReport
+
+    Note over P, F: Phase 2: Consultation & Treatment Plan
+    D->>P: Perform Clinical Examination
+    D->>P: Issue Diagnosis & Prescription
+    alt Admission Required
+        D->>P: Set status to ADMITTED (Ward/ICU)
+        P->>P: Undergo Recovery Treatment
+        D->>P: Set status to DISCHARGED
+    end
+
+    Note over P, F: Phase 3: Pharmacy & Financial Settlement
+    P->>Ph: Present Prescription at Pharmacy
+    Ph->>P: Verify Stock, Dispense Medicines & Issue Bill
+    P->>F: Settle Total Hospital & Pharmacy Charges
+    F->>F: Deposit revenue into Central Treasury Account
+
+    Note over P, F: Phase 4: Administrative Payroll
+    F->>N: Disburse Monthly Salary
+    F->>D: Disburse Monthly Salary
+
+```
+
+---
+
+## ⚡ Role-Based Dashboard Capabilities
+
+### 🔑 Role Breakdown
 
 * **👨‍💼 Admin Dashboard:**
-* Register new staff members (`Doctor`, `Nurse`, `Pharmacist`) with input validation.
+* Register staff members (`Doctor`, `Nurse`, `Pharmacist`) with real-time validation.
 * Create and assign clinical departments.
 * Audit hospital central treasury funds.
-* Disburse monthly staff salaries.
+* Disburse monthly staff salaries (`FinanceService`).
 
 
 * **👨‍⚕️ Doctor Dashboard:**
@@ -138,13 +214,6 @@ classDiagram
 * Pay outstanding hospital and pharmacy bills (`Payable`).
 
 
-
-### ⚙️ Core Technical Highlights
-
-* **Emergency Triage Routing:** Automatically bypasses standard intake queues for critical cases, assigning senior doctors and ICU nurses immediately.
-* **Decoupled Financials (`Payable`):** Handles transactions cleanly across both revenue collection (patient bills) and expenditure (employee salary withdrawals).
-* **Automated Data Persistence:** Uses Java Object Serialization (`DataManager`) to preserve all patient records, inventory states, and financial ledgers to disk (`hospital_data.ser`).
-* **Modular Package Architecture:** Clean separation of concerns across `model`, `interfaces`, `exception`, `service`, `util`, and `ui` packages.
 
 ---
 
@@ -235,3 +304,4 @@ java -cp bin Main
 Contributions, issues, and feature requests are welcome! Feel free to open an issue or submit a pull request.
 
 ---
+
