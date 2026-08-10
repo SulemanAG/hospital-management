@@ -8,6 +8,9 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
+## 🔄 Real-Time Patient Lifecycle & Status Tracker
+
+![Hospital Patient Workflow Status Tracker](./hospital-workflow.svg)
 
 ## 📌 Overview
 
