@@ -9,10 +9,11 @@
 
 ---
 
+
 ## 🔄 Real-Time Patient Lifecycle & Status Tracker
 
 <p align="center">
-  <img src="hospital-workflow.svg" alt="Hospital Patient Workflow Status Tracker" width="100%" />
+  <img src="https://raw.githubusercontent.com/SulemanAG/hospital-management/main/hospital-workflow.svg" alt="Hospital Patient Workflow Status Tracker" width="100%" />
 </p>
 
 ## 📌 Overview
