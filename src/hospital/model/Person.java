@@ -1,62 +1,69 @@
 package hospital.model;
+import hospital.exception.InvalidInputException;
+
 import javax.management.relation.InvalidRoleInfoException;
 import javax.print.DocFlavor;
 import java.io.Serializable;
 
 import static java.sql.Types.NULL;
 
-abstract class Person implements Serializable{
+public class Person implements Serializable{
     private static final long serialVersionUID=1L;
 
-    protected Integer id;
+
     protected String name;
-    protected Integer phoneNumber;
+    protected String phoneNumber;
     protected String address;
 
     public Person() {}
 
-    public Person(Integer id, String name, Integer phoneNumber,
+    public Person(String name, String  phoneNumber,
                    String address)
     {
 
         validateNonEmpty("Name",name);
-        validateInt(id);
         validatePhone(phoneNumber);
-        validateNonempty("Address",address);
-        this.id=id;
+        validateNonEmpty("Address",address);
         this.name=name;
         this.phoneNumber=phoneNumber;
         this.address=address;
     }
 
     protected static void validateNonEmpty(String fieldName,String value)
-                    throws InavlidInputException{
+                    throws InvalidInputException{
         if(value==null|| value.trim().isEmpty()){
             throw new InvalidInputException(fieldName+"cannot be empty");
         }
     }
 
-    protected static void validatePhone(Integer phoneNumber)
+    protected static void validatePhone(String phoneNumber)
             throws InvalidInputException{
-        if(phoneNumber==NULL|| !phoneNumber.matches("\\d{10}")){
+        if(phoneNumber==null|| !String.valueOf(phoneNumber).matches("\\d{10}")){
             throw new InvalidInputException("Phone Number must be exactly 10 digits");
         }
 
     }
-    protected static void validateInt(Integer id)throws
-            InvalidInputExceptoon
-    {
-        if(id==NULL|| !id.matches("-?\\d+(\\.\\d+)?")){
-            throw new InvalidInputException("ID cannot be non-number");
+
+    protected static void validateDouble(double value) throws InvalidInputException {
+        if (value < 0.0) {
+            throw new InvalidInputException(value + " is Invalid");
         }
     }
 
-    public Integer getId() {return id;}
-    public void setId(Integer id) {this.id = id;}
+
+
+    public String getRole(){
+        return "Person";
+    }
+    public void displayDetails(){
+        System.out.println("Name:"+getName());
+        System.out.println("Phone number:"+getPhoneNumber());
+        System.out.println("Address:"+getAddress());
+    }
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
-    public Integer getPhoneNumber() {return phoneNumber;}
-    public void setPhoneNumber(Integer phoneNumber) {this.phoneNumber = phoneNumber;}
+    public String getPhoneNumber() {return phoneNumber;}
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
     public String getAddress() {return address;}
     public void setAddress(String address) {this.address = address;}
 }
